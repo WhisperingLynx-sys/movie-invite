@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movie Date?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+    body {
+      background: linear-gradient(135deg, #fceabb, #f8b500);
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #3e2c00;
+    }
+
+    .container {
+      background: #fff4cc;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: 40px 30px;
+      max-width: 350px;
+      width: 90%;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: #d35400;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+
+    .movie-pic {
+      width: 150px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(211, 84, 0, 0.3);
+    }
+
+    .btn {
+      background-color: #d35400;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 10px rgba(211, 84, 0, 0.4);
+      margin: 0 10px;
+      position: relative;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background-color: #e67e22;
+    }
+
+    .btn.no {
+      background-color: #555;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+    }
+
+    .btn.no:hover {
+      background-color: #777;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    /* Shake animation */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    .shake {
+      animation: shake 0.4s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hey Love! 💖</h1>
+    <img
+      src="https://upload.wikimedia.org/wikipedia/en/1/1a/Conjuring_poster.jpg"
+      alt="The Conjuring Movie Poster"
+      class="movie-pic"
+    />
+    <p>
+      I was wondering... would you like to go see <strong>The Conjuring</strong> with me? 👻🎬
+    </p>
+    <div class="buttons-container">
+      <button class="btn yes" onclick="alert('Yay! Can’t wait! 🥰')">Yes, let’s go!</button>
+      <button class="btn no" id="noBtn">No</button>
+    </div>
+  </div>
+
+  <!-- Spooky ghost sound from freesound.org (Creative Commons) -->
+  <audio id="ghostSound" src="https://cdn.freesound.org/previews/335/335908_3248244-lq.mp3" preload="auto"></audio>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const container = document.querySelector('.container');
+    const ghostSound = document.getElementById('ghostSound');
+
+    noBtn.addEventListener('mouseenter', moveButton);
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // prevent tap from activating button
+      moveButton();
+    });
+
+    function moveButton() {
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // Calculate max X and Y inside container to keep button visible
+      const maxX = containerRect.width - btnRect.width - 20;
+      const maxY = containerRect.height - btnRect.height - 20;
+
+      // Generate random new position within container boundaries
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+
+      // Play spooky sound
+      ghostSound.currentTime = 0;
+      ghostSound.play();
+
+      // Trigger shake animation
+      noBtn.classList.remove('shake');
+      void noBtn.offsetWidth; // trigger reflow to restart animation
+      noBtn.classList.add('shake');
+    }
+  </script>
+</body>
+</html>
